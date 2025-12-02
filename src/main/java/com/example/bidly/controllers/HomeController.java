@@ -70,12 +70,6 @@ public class HomeController {
         }
     }
 
-
-    @GetMapping("/contact")
-    public String contact() {
-        return "contact";
-    }
-
     @GetMapping("/sell")
     public String sellPage(HttpSession session) {
         Object user = session.getAttribute("user");
@@ -134,7 +128,7 @@ public class HomeController {
         });
         AppUser user = (AppUser) session.getAttribute("user");
         if (user != null && "admin".equals(user.getUsername())) {
-            return "/panel";
+            return "panel";
         }
         return "redirect:/";
     }
