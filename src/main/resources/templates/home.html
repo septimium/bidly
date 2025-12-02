@@ -40,6 +40,7 @@
 <section class="items-grid">
   <div class="item-card" th:each="item : ${items}" th:if="${item.isApproved}">
     <img th:src="${item.itemId != null} ? '/image/' + ${item.itemId} : 'https://placehold.co/300x200'"
+         th:onclick="'location.href=\'/item/' + ${item.itemId} + '\';'"
          alt="Item Image" />
     <div class="item-info">
       <h3 th:text="${item.name}">Item Name</h3>

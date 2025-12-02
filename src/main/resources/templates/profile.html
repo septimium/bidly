@@ -43,7 +43,7 @@
             <th>Status</th>
         </tr>
         <tr th:each="item : ${userWinningBids}">
-            <td th:text="${item.name}"></td>
+            <td th:text="${item.name}" th:onclick="'location.href=\'/item/' + ${item.itemId} + '\';'"></td>
             <td th:text="${item.startingBid}"></td>
             <td th:text="${#temporals.format(item.endTime, 'yyyy-MM-dd HH:mm')}"></td>
             <td th:text="${item.active} ? 'Pending' : 'Won'"></td>
@@ -60,7 +60,7 @@
             <th>Availability</th>
         </tr>
         <tr th:each="item : ${userListedItems}">
-            <td th:text="${item.name}"></td>
+            <td th:text="${item.name}" th:onclick="'location.href=\'/item/' + ${item.itemId} + '\';'"></td>
             <td th:text="${item.description}"></td>
             <td th:text="${item.startingBid}"></td>
             <td th:text="${item.approved} ? 'Approved' : 'Pending'"></td>
