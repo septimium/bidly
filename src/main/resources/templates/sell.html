@@ -33,7 +33,7 @@
 
         <div class="form-wrapper">
 
-            <form th:action="@{/sell}" method="post" class="sell-form" enctype="multipart/form-data">
+            <form th:action="@{/sell}" method="post" class="sell-form" enctype="multipart/form-data" onsubmit="return confirmSellSubmit(event)">
                 <label for="name">Item name:</label>
                 <input type="text" id="name" name="name" placeholder="Enter the name of the item" required />
 
@@ -60,5 +60,17 @@
     © 2025 Bidly. All rights reserved.
 </footer>
 
-</body>
-</html>
+<script>
+function confirmSellSubmit(event) {
+    const form = event.preventDefault();
+    const submitBtn = form.querySelector('.btn-submit');
+    if (submitBtn) {
+        submitBtn.textContent = 'Posting...';
+        submitBtn.style.opacity = '0.7';
+        submitBtn.disabled = true;
+    }
+    setTimeout(() => form.submit(), 1000);
+
+    return true;
+}
+</script>

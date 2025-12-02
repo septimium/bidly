@@ -47,7 +47,7 @@
             <h3 class="time-left"
                th:data-end-time="${item.endTime != null} ? ${#temporals.format(item.endTime, 'yyyy-MM-dd HH:mm:ss')} : ''"
                th:text="'Time Left: ' + ${item.endTime != null} ? ${#temporals.format(item.endTime, 'yyyy-MM-dd HH:mm:ss')} : 'N/A'">Time Left: Calculating...</h3>
-            <form th:action="@{/item/{id}(id=${item.itemId})}" method="post" th:if="${item.isActive}">
+            <form th:action="@{/item/{id}(id=${item.itemId})}" method="post" th:if="${item.isActive}" onsubmit="return confirmBidSubmit(event)">
                 <h3><label for="bid_amount">Your Bid:</label>
                 <input type="number" id="bid_amount" name="bidAmount" min="0" step="0.01" required /></h3>
                 <div th:if="${error}" style="color: red; font-weight: bold; margin-top: 10px;">
@@ -69,6 +69,18 @@
 </html>
 
 <script>
+    function confirmBidSubmit(event) {
+        const form = event.target;
+        const submitBtn = form.querySelector('.btn-submit');
+        if (submitBtn) {
+            submitBtn.textContent = 'Placing bid...';
+            submitBtn.style.opacity = '0.7';
+        }
+        setTimeout(() => form.submit(), 1000);
+
+        return true;
+    }
+
     function updateCountdown() {
         const now = new Date();
         document.querySelectorAll('.time-left').forEach(element => {
@@ -100,10 +112,10 @@
             element.textContent = timeString;
             if (bidButton) {
                 bidButton.disabled = false;
-                bidButton.textContent = 'Bid Now';
+                bidButton.textContent = 'Place Bid';
             }
         });
     }
     setInterval(updateCountdown, 1000);
-    updateCountdown(); // Initial call to avoid 1-second delay
+    updateCountdown();
 </script>

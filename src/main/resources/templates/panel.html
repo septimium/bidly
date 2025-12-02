@@ -45,12 +45,12 @@
             <p th:text="'Current Bid: $' + ${item.startingBid}"></p>
             <p class="time-left" th:data-end-time="${#temporals.format(item.endTime, 'yyyy-MM-dd HH:mm:ss')}"
                th:text="'Time Left: ' + ${#temporals.format(item.endTime, 'yyyy-MM-dd HH:mm:ss')}">Time Left: Calculating...</p>
-            <form th:action="@{/item/{id}/toggle-approval(id=${item.itemId})}" method="post">
+            <form th:action="@{/item/{id}/toggle-approval(id=${item.itemId})}" method="post" onsubmit="return confirmApprove(event, this)">
                 <button type="submit" class="admin-button" style="background-color: limegreen">
                     <span>Approve</span>
                 </button>
             </form>
-            <form th:action="@{/item/{id}/delete(id=${item.itemId})}" method="post">
+            <form th:action="@{/item/{id}/delete(id=${item.itemId})}" method="post" onsubmit="return confirmDelete(event, this)">
                 <button type="submit" class="admin-button" style="background-color: darkred">
                     <span>Delete</span>
                 </button>
@@ -68,6 +68,41 @@
 </html>
 
 <script>
+    function confirmApprove(event, form) {
+        const itemName = form.closest('.item-info').querySelector('h3').textContent;
+        const confirmed = confirm(`Are you sure you want to approve "${itemName}"?`);
+
+        if (!confirmed) {
+            event.preventDefault();
+            return false;
+        }
+
+        // Add loading animation
+        const submitBtn = event.target.querySelector('button');
+        submitBtn.textContent = 'Approving...';
+        submitBtn.style.opacity = '0.7';
+
+        return true;
+    }
+
+    function confirmDelete(event, form) {
+        const itemName = form.closest('.item-info').querySelector('h3').textContent;
+        const confirmed = confirm(`⚠️ WARNING: Are you sure you want to DELETE "${itemName}"? This action cannot be undone!`);
+
+        if (!confirmed) {
+            event.preventDefault();
+            return false;
+        }
+
+        const submitBtn = form.querySelector('.btn-submit');
+        if (submitBtn) {
+            submitBtn.textContent = 'Deleting...';
+            submitBtn.style.opacity = '0.7';
+        }
+        setTimeout(() => form.submit(), 500);
+        return true;
+    }
+
     function updateCountdown() {
         const now = new Date();
         document.querySelectorAll('.time-left').forEach(element => {
