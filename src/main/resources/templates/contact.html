@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact | Bidly</title>
+  <link rel="stylesheet" th:href="@{/css/contact.css}" />
+</head>
+<body>
+<header>
+  <div class="logo">Bidly</div>
+  <nav class="nav-links">
+    <a th:href="@{/}">Home</a>
+    <a th:href="@{/about}">About</a>
+    <a th:href="@{/contact}">Contact</a>
+    <a th:href="@{/sell}">Sell</a>
+
+    <span th:if="${session.user != null && session.user.username == 'admin'}">
+      <a th:href="@{/panel}">Panel</a>
+    </span>
+    <span th:if="${session.user != null}">
+      <a th:href="@{/profile}" th:text="Profile"></a>
+      <a th:href="@{/logout}">Logout</a>
+    </span>
+
+    <a th:if="${session.user == null}" th:href="@{/login}">Login</a>
+  </nav>
+</header>
+
+<main class="contact-main">
+  <div class="container">
+    <h1>Contact Us</h1>
+    <p>We would love to hear from you! If you have any questions, comments, or concerns, please feel free to reach out to us using the contact form below.</p>
+
+    <div class="form-wrapper">
+      <form th:action="@{/contact}" method="post" class="contact-form">
+        <label for="name">Your Username:</label>
+        <input type="text" id="name" name="name" placeholder="Enter your username" required />
+
+        <label for="email">Your Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required />
+
+        <label for="message">Your Message:</label>
+        <textarea id="message" name="message" rows="3" placeholder="Type your message here" required></textarea>
+
+        <button type="submit" class="btn-submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+</main>
+
+<footer>
+    © 2025 Bidly. All rights reserved.
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | Bidly</title>
+    <link rel="stylesheet" th:href="@{/css/item_details.css}" />
+</head>
+<body>
+
+<header>
+    <div class="logo">Bidly</div>
+    <nav class="nav-links">
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/about}">About</a>
+        <a th:href="@{/contact}">Contact</a>
+        <a th:href="@{/sell}">Sell</a>
+
+        <span th:if="${session.user != null && session.user.username == 'admin'}">
+      <a th:href="@{/panel}">Panel</a>
+    </span>
+        <span th:if="${session.user != null}">
+      <a th:href="@{/profile}" th:text="Profile"></a>
+      <a th:href="@{/logout}">Logout</a>
+    </span>
+
+
+
+        <a th:if="${session.user == null}" th:href="@{/login}">Login</a>
+    </nav>
+</header>
+
+
+<section class="hero">
+    <h1 th:text="${item.name}">Item Name</h1>
+</section>
+
+<section class="items-grid">
+    <div class="item-card">
+        <img th:src="${item.itemId != null} ? '/image/' + ${item.itemId} : 'https://placehold.co/300x200'"
+             alt="Item Image" />
+        <div class="item-info">
+            <h2 th:text="${item.description}">Description: N/A</h2>
+            <h3 th:text="'Current Bid: $' + ${item.startingBid}">Current Bid: N/A</h3>
+            <h3 th:if="${!item.isActive}" th:text="'Winner: ' + ${winnerUsername}"></h3>
+            <h3 th:if="${item.isActive}" th:text="'Current Bidder: ' + ${winnerUsername}"></h3>
+            <h3 class="time-left"
+               th:data-end-time="${item.endTime != null} ? ${#temporals.format(item.endTime, 'yyyy-MM-dd HH:mm:ss')} : ''"
+               th:text="'Time Left: ' + ${item.endTime != null} ? ${#temporals.format(item.endTime, 'yyyy-MM-dd HH:mm:ss')} : 'N/A'">Time Left: Calculating...</h3>
+            <form th:action="@{/item/{id}(id=${item.itemId})}" method="post" th:if="${item.isActive}">
+                <h3><label for="bid_amount">Your Bid:</label>
+                <input type="number" id="bid_amount" name="bidAmount" min="0" step="0.01" required /></h3>
+                <div th:if="${error}" style="color: red; font-weight: bold; margin-top: 10px;">
+                    <p th:text="${error}"></p>
+                </div>
+                <p><button type="submit" class="bid-button">Place Bid</button></p>
+            </form>
+            <p th:if="${!item.isActive}">Bidding is not available for this item.</p>
+        </div>
+    </div>
+</section>
+
+
+<footer>
+    © 2025 Bidly. All rights reserved.
+</footer>
+
+</body>
+</html>
+
+<script>
+    function updateCountdown() {
+        const now = new Date();
+        document.querySelectorAll('.time-left').forEach(element => {
+            const endTimeStr = element.getAttribute('data-end-time').replace(' ', 'T');
+            const endTime = new Date(endTimeStr);
+            const timeDiff = endTime - now;
+
+            const bidButton = element.closest('.item-info').querySelector('button');
+
+            if (timeDiff <= 0) {
+                element.textContent = 'Time Left: Bidding Ended';
+                if (bidButton) {
+                    bidButton.disabled = true;
+                    bidButton.textContent = 'Bidding Closed';
+                }
+                return;
+            }
+
+            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+            let timeString = 'Time Left: ';
+            if (days > 0) timeString += `${days}d `;
+            if (hours > 0 || days > 0) timeString += `${hours}h `;
+            timeString += `${minutes}m ${seconds}s`;
+
+            element.textContent = timeString;
+            if (bidButton) {
+                bidButton.disabled = false;
+                bidButton.textContent = 'Bid Now';
+            }
+        });
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown(); // Initial call to avoid 1-second delay
+</script>

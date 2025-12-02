@@ -1,0 +1,111 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f4f6f8;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1a1a1a;
+}
+
+nav a {
+    margin-left: 10px;
+    padding: 10px 15px;
+    background-color: #347dff;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+nav a:hover {
+    background-color: #2465d6;
+}
+
+.login-card {
+    max-width: 400px;
+    margin: 120px auto 60px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+.login-card .signup {
+    margin-top: 15px;
+    font-size: 14px;
+
+}
+
+.login-card .signup a {
+    color: #2465ff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-card h2 {
+    font-size: 1.8rem;
+    color: #1f2937;
+    margin-bottom: 25px;
+}
+
+.login-card input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.login-card button {
+    width: 100%;
+    padding: 12px;
+    background-color: #2465ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-card button:hover {
+    background-color: #194cd6;
+}
+
+footer {
+    margin-top: auto;
+    padding: 20px;
+    text-align: center;
+    background-color: #1f2937;
+    color: white;
+    font-size: 14px;
+}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | Bidly</title>
+  <link rel="stylesheet" th:href="@{/css/about.css}" />
+</head>
+<body>
+
+<header>
+  <div class="logo">Bidly</div>
+  <nav class="nav-links">
+    <a th:href="@{/}">Home</a>
+    <a th:href="@{/about}">About</a>
+    <a th:href="@{/contact}">Contact</a>
+    <a th:href="@{/sell}">Sell</a>
+
+    <span th:if="${session.user != null && session.user.username == 'admin'}">
+      <a th:href="@{/panel}">Panel</a>
+    </span>
+    <span th:if="${session.user != null}">
+      <a th:href="@{/profile}" th:text="Profile"></a>
+      <a th:href="@{/logout}">Logout</a>
+    </span>
+
+    <a th:if="${session.user == null}" th:href="@{/login}">Login</a>
+  </nav>
+</header>
+
+<main class="about-section">
+  <h1>About Us</h1>
+  <p>Welcome to Bidly, your premier online marketplace for bidding on unique and valuable items. Our platform connects buyers and sellers from around the world, providing a seamless and secure bidding experience.</p>
+
+  <p>At Bidly, we believe that everyone should have the opportunity to find and acquire rare and exceptional items. Whether you're a collector, enthusiast, or simply looking for something special, our platform offers a diverse range of items for bidding.</p>
+
+  <p>Our mission is to create a transparent and trustworthy environment for all users. We prioritize security and user satisfaction, ensuring that every transaction is handled with care and professionalism.</p>
+
+  <p>Join us today and discover the thrill of bidding on items that capture your interest. Happy bidding!</p>
+</main>
+
+<footer>
+  © 2025 Bidly. All rights reserved.
+</footer>
+
+</body>
+</html>

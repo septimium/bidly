@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell | Bidly</title>
+    <link rel="stylesheet" th:href="@{/css/sell.css}" />
+</head>
+<body>
+
+<header>
+    <div class="logo">Bidly</div>
+    <nav class="nav-links">
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/about}">About</a>
+        <a th:href="@{/contact}">Contact</a>
+        <a th:href="@{/sell}">Sell</a>
+        <span th:if="${session.user != null && session.user.username == 'admin'}">
+      <a th:href="@{/panel}">Panel</a>
+    </span>
+    <span th:if="${session.user != null}">
+      <a th:href="@{/profile}" th:text="Profile"></a>
+      <a th:href="@{/logout}">Logout</a>
+    </span>
+
+        <a th:if="${session.user == null}" th:href="@{/login}">Login</a>
+    </nav>
+</header>
+
+<main class="sell-main">
+    <div class="container">
+        <h1> Sell an item</h1>
+
+        <div class="form-wrapper">
+
+            <form th:action="@{/sell}" method="post" class="sell-form" enctype="multipart/form-data">
+                <label for="name">Item name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter the name of the item" required />
+
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" rows="3" placeholder="Describe the item" required></textarea>
+
+                <label for="starting_bid">Starting Bid Price:</label>
+                <input type="number" id="starting_bid" name="startingBid" placeholder="Enter the starting bid price" min="0" step="0.01" required />
+
+                <label for="end_time">Bidding End Date and Time:</label>
+                <input type="datetime-local" id="end_time" name="endTime" required min="@{${#dates.format(#dates.createNow(), 'yyyy-MM-dd\'T\'HH:mm')}" />
+
+                <label for="image">Upload Image:</label>
+                <input type="file" id="image" name="image" accept="image/*" required />
+
+                <button type="submit" class="btn-submit">Post Listing</button>
+            </form>
+
+        </div>
+    </div>
+</main>
+
+<footer>
+    © 2025 Bidly. All rights reserved.
+</footer>
+
+</body>
+</html>

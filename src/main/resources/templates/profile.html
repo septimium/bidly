@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Bidly</title>
+    <link rel="stylesheet" th:href="@{/css/about.css}" />
+</head>
+<body>
+
+<header>
+    <div class="logo">Bidly</div>
+    <nav class="nav-links">
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/about}">About</a>
+        <a th:href="@{/contact}">Contact</a>
+        <a th:href="@{/sell}">Sell</a>
+
+        <span th:if="${session.user != null && session.user.username == 'admin'}">
+      <a th:href="@{/panel}">Panel</a>
+    </span>
+    <span th:if="${session.user != null}">
+      <a th:href="@{/profile}" th:text="Profile"></a>
+      <a th:href="@{/logout}">Logout</a>
+    </span>
+
+        <a th:if="${session.user == null}" th:href="@{/login}">Login</a>
+    </nav>
+</header>
+
+<main class="about-section">
+    <h1>Welcome, [[${session.user.username}]]!</h1>
+    <p>Email address: [[${session.user.email}]]</p>
+
+    <br><br>
+
+    <h2>Your Current Winning Bids</h2>
+    <table>
+        <tr>
+            <th>Item Name</th>
+            <th>Bid Amount</th>
+            <th>Ends At</th>
+            <th>Status</th>
+        </tr>
+        <tr th:each="item : ${userWinningBids}">
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.startingBid}"></td>
+            <td th:text="${#temporals.format(item.endTime, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${item.active} ? 'Pending' : 'Won'"></td>
+        </tr>
+    </table>
+
+    <h2>Your Listed Items</h2>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Bid</th>
+            <th>Status</th>
+            <th>Availability</th>
+        </tr>
+        <tr th:each="item : ${userListedItems}">
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.description}"></td>
+            <td th:text="${item.startingBid}"></td>
+            <td th:text="${item.approved} ? 'Approved' : 'Pending'"></td>
+            <td th:text="${item.active} ? 'Active' : 'Expired'"></td>
+        </tr>
+    </table>
+
+
+
+</main>
+
+<footer>
+    © 2025 Bidly. All rights reserved.
+</footer>
+
+</body>
+</html>
