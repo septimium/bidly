@@ -33,7 +33,7 @@
 
         <div class="form-wrapper">
 
-            <form th:action="@{/sell}" method="post" class="sell-form" enctype="multipart/form-data" onsubmit="return confirmSellSubmit(event)">
+            <form th:action="@{/sell}" method="post" class="sell-form" enctype="multipart/form-data" onsubmit="return confirmSellSubmit(event, this)">
                 <label for="name">Item name:</label>
                 <input type="text" id="name" name="name" placeholder="Enter the name of the item" required />
 
@@ -61,8 +61,7 @@
 </footer>
 
 <script>
-function confirmSellSubmit(event) {
-    const form = event.preventDefault();
+function confirmSellSubmit(event, form) {
     const submitBtn = form.querySelector('.btn-submit');
     if (submitBtn) {
         submitBtn.textContent = 'Posting...';
